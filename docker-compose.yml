@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  storm: &storm
+    build: .
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    # command: ["storm", "model-check", "models/markov-chain.pm"]
+    entrypoint: storm
+
+  shell: &shell
+    <<: *storm
+    entrypoint: bash
+    stdin_open: true
+    tty: true
+
+  script:
+    <<: *shell
+    command: bash -x -c
+    stdin_open: true
+    tty: true
