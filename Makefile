@@ -1,12 +1,15 @@
 init: build
 
+clean:
+	true
+
 build:
 	docker compose build
 
 shell:
 	docker compose run shell
 
-smoke-test: test 
+smoke-test: test
 test:
 	# docker compose run storm --version
 	# docker compose run storm models/dice/dice.prism
