@@ -1,12 +1,71 @@
 # Overview
 
-Demos / Work Bench for using the [Storm Model Checker](https://www.stormchecker.org/index.html)
+Demos / Work Bench for using the [Storm Model Checker](https://www.stormchecker.org/about.html)
+
+-----------------------------------
 
 # Quick Start
 
-```
+Build the container and run the smoke tests.  
+
+```bash
 $ make clean build test
 ```
+
+The [docker-compose.yml](docker-compose.yml) will mount the working-directory for you automatically to give access to any model files.  
+
+You can interact with the `storm` CLI directly like this:
+
+```bash
+$ docker compose run storm --version
+Storm 1.8.0
+Date: Sun Apr 14 01:12:54 2024
+Command line arguments: --version
+Current working directory: /workspace
+Compiled on Linux 5.15.49-linuxkit using gcc 12.2.0 with flags ' -O3 -DNDEBUG -fprefetch-loop-arrays -flto -flto-partition=none -fomit-frame-pointer'
+Linked with GNU Linear Programming Kit v5.0.
+Linked with Microsoft Z3 Optimizer v4.8 Build 12 Rev 0.
+Linked with CArL.
+```
+
+# See also: https://moves-rwth.github.io/stormpy/getting_started.html
+You can also drop into an IPython shell inside the container, and then  interact directly with `stormpy`.  See also the [stormpy tutorial here](https://moves-rwth.github.io/stormpy/getting_started.html).
+
+```pycon
+$ docker compose run stormpy
++ ipython -i -c 'import stormpy; print(stormpy.__version__)'
+Python 3.11.2 (main, May 30 2023, 17:45:26) [GCC 12.2.0]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.23.0 -- An enhanced Interactive Python. Type '?' for help.
+1.8.0
+
+In [1]: import stormpy.examples.files
+In [2]: from stormpy.examples import files
+In [3]: dir(files)
+Out[3]:
+['dft_galileo_hecs',
+ 'dft_json_and',
+ 'drn_ctmc_dft',
+ 'drn_pdtmc_die',
+ 'drn_pomdp_maze',
+ 'gspn_pnml_simple',
+ 'gspn_pnpro_simple',
+ 'jani_dtmc_die',
+ 'prism_dtmc_brp',
+ 'prism_dtmc_die',
+ 'prism_ma_simple',
+ 'prism_mdp_coin_2_2',
+ 'prism_mdp_firewire',
+ 'prism_mdp_maze',
+ 'prism_mdp_slipgrid',
+ 'prism_par_pomdp_maze',
+ 'prism_pdtmc_brp',
+ 'prism_pdtmc_die',
+ 'prism_pmdp_coin_two_dice',
+ 'prism_pomdp_maze',]
+```
+
+-----------------------------------
 
 # See also:
 
