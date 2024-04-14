@@ -1,4 +1,4 @@
-FROM movesrwth/stormpy
+FROM movesrwth/stormpy:1.8.0
 # :1.6.0
 # RUN apt-get update
 # RUN apt-get install -y python3-pip
@@ -11,7 +11,8 @@ FROM movesrwth/stormpy
 #
 # NB: branch tag here must match storm image tag
 # https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm
-RUN cd / && git clone https://github.com/moves-rwth/stormpy.git --branch 1.7.0
+RUN cd / && git clone https://github.com/moves-rwth/stormpy.git --branch 1.8.0
+RUN pip install ipython
 # RUN cd stormpy && pip install .
 
 # RUN storm --version

@@ -15,8 +15,7 @@ services:
     stdin_open: true
     tty: true
 
-  script:
+  stormpy: &stormpy
     <<: *shell
-    command: bash -x -c
-    stdin_open: true
-    tty: true
+    command: >-
+      -x -c "ipython -i -c 'import stormpy; print(stormpy.__version__)'"
