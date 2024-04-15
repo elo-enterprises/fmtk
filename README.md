@@ -8,6 +8,7 @@
   <tr>
     <td width=15%><img src=img/icon.png style="width:150px"></td>
     <td>
+      Formal Methods Toolkit: A growing collection of containers and notebooks for working with specification languages & model checkers
       <br/><br/>
       <a href="https://github.com/elo-enterprises/fmtk/actions/workflows/docker-build.yml"><img src="https://github.com/elo-enterprises/fmtk/actions/workflows/docker-build.yml/badge.svg"></a>
     </td>
