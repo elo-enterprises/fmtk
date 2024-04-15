@@ -1,16 +1,37 @@
 # Overview
 
-Demos / Work Bench for using the [Storm Model Checker](https://www.stormchecker.org/about.html)
+Formal Methods Toolkit: A growing collection of containers and notebooks for working with specification languages & model checkers
+
+Under construction.  Currently only some stuff with the [Storm Model Checker](https://www.stormchecker.org/about.html) is implemented.
 
 -----------------------------------
 
 # Quick Start
+
+## Build/Test
 
 Build the container and run the smoke tests.  
 
 ```bash
 $ make clean build test
 ```
+
+You can interact with the container in several ways, for example:
+
+
+```bash
+# Drop into an interactive shell for this container (bash)
+$ make shell
+
+# or, equivalently
+$ docker compose run shell
+
+# to send a specific command to the container,
+# args are still passed to bash so use something like:
+$ docker compose run shell -x -c 'storm --version || true'
+```
+
+## Running Storm
 
 The [docker-compose.yml](docker-compose.yml) will mount the working-directory for you automatically to give access to any model files.  
 
@@ -28,7 +49,8 @@ Linked with Microsoft Z3 Optimizer v4.8 Build 12 Rev 0.
 Linked with CArL.
 ```
 
-# See also: https://moves-rwth.github.io/stormpy/getting_started.html
+## StormPy Shell
+
 You can also drop into an IPython shell inside the container, and then  interact directly with `stormpy`.  See also the [stormpy tutorial here](https://moves-rwth.github.io/stormpy/getting_started.html).
 
 ```pycon
@@ -65,13 +87,42 @@ Out[3]:
  'prism_pomdp_maze',]
 ```
 
+## Storm in Notebooks
+
+This uses [jupyter](https://jupyter.org/) to work with storm & stormpy in a notebook.
+
+```bash
+
+# starts jupyter lab for this container
+$ make serve
+
+# or, equivalently
+$ docker compose up lab
+
+# or, with daemonization
+$ make serve/bg
+
+# this will open a browser for the lab notebooks:
+$ make open
+
+# stop the container
+$ make stop
+```
+
+-----------------------------------
+
+
+
 -----------------------------------
 
 # See also:
-
+* [principles of model checking](https://books.google.com/books?id=5dvxCwAAQBAJ&)
+* https://jani-spec.org/
 * https://github.com/moves-rwth/pycarl/tree/2.2.0
 * https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm
 * https://hub.docker.com/r/movesrwth/stormpy/tags
 * https://www.stormchecker.org/documentation/usage/running-storm.html#running-storm-on-prism-jani-or-explicit-input
 * https://github.com/prismmodelchecker/prism-benchmarks/tree/master/models/smgs/dice
 * https://www.kahoque.com/papers/SysCon2016_Fault_CR.pdf
+* https://www.modestchecker.net/
+* https://github.com/ahartmanns/jani-models/

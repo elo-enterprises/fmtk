@@ -6,6 +6,17 @@ clean:
 build:
 	docker compose build
 
+serve:
+	docker compose up lab
+start: serve
+stop:
+	docker compose stop
+panic: stop
+serve/bg:
+	docker compose up -d lab
+
+open:
+	python -c 'import webbrowser; webbrowser.open("http://localhost:9999/lab")'
 shell:
 	docker compose run shell
 
