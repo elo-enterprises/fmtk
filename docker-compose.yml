@@ -5,6 +5,10 @@ services:
     build: .
     volumes:
       - .:/workspace
+      - ./jupyter:/root/.jupyter
+      - ./jupyter/overrides.json:/opt/venv/share/jupyter/lab/settings/overrides.json
+      - ./jupyter/jupyter_app_launcher:/opt/venv/share/jupyter/jupyter_app_launcher
+      # - ./jupyter/overrides.json:/root/.jupyter/overrides.json
     working_dir: /workspace
     # command: ["storm", "model-check", "models/markov-chain.pm"]
     entrypoint: storm
@@ -15,8 +19,16 @@ services:
     stdin_open: true
     tty: true
 
-  script:
+  stormpy: &stormpy
     <<: *shell
-    command: bash -x -c
-    stdin_open: true
-    tty: true
+    command: >-
+      -x -c "ipython -i -c 'import stormpy; print(stormpy.__version__)'"
+
+  lab:
+    <<: *shell
+    entrypoint: >
+      jupyter lab --ip=0.0.0.0
+        --port=9999 --no-browser 
+        --ServerApp.token= --ServerApp.password=
+        --allow-root
+    ports: ['9999:9999']
