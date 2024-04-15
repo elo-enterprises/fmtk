@@ -9,27 +9,14 @@
     <td width=15%><img src=img/icon.png style="width:150px"></td>
     <td>
       <br/><br/>
-      <a href="https://github.com/elo-enterprises/fmtk/actions/workflows/docker-build.yml"><img src="https://github.com/elo-enterprises/fmtk/actions/workflows/docker-build.yml/badge.svg"></a>
+      {%for action in github.actions%}<a href="{{action.url}}"><img src="{{action.url}}/badge.svg"></a>{%endfor%}
     </td>
   </tr>
 </table>
 
 ---------------------------------------------------------------------------------
 
-<div class="toc">
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#quick-start">Quick Start</a><ul>
-<li><a href="#buildtest">Build/Test</a></li>
-<li><a href="#running-storm">Running Storm</a></li>
-<li><a href="#stormpy-shell">StormPy Shell</a></li>
-<li><a href="#storm-in-notebooks">Storm in Notebooks</a></li>
-</ul>
-</li>
-<li><a href="#see-also">See also:</a></li>
-</ul>
-</div>
-
+{{markdown_toc(__template__, level=2)}}
 
 ---------------------------------------------------------------------------------
 
