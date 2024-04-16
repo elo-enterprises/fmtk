@@ -24,11 +24,28 @@ services:
     command: >-
       -x -c "ipython -i -c 'import stormpy; print(stormpy.__version__)'"
 
+  # docker run -t --rm -v `pwd`:/workspace -w /workspace corbinu/alpine-w3m -dump .tmp.html
+  w3m: &w3m
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    build:
+     context: .
+     dockerfile_inline: |
+        FROM alpine:latest
+        RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+        # RUN apk update
+        RUN apk add --allow-untrusted --no-cache w3m
+        ENTRYPOINT ["/usr/bin/w3m"]
+
+
   lab:
     <<: *shell
     entrypoint: >
       jupyter lab --ip=0.0.0.0
-        --port=9999 --no-browser 
+        --port=9999 --no-browser
         --ServerApp.token= --ServerApp.password=
         --allow-root
     ports: ['9999:9999']

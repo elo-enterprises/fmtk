@@ -135,20 +135,22 @@ $ make open
 $ make stop
 ```
 
+You can also run notebooks, inside the main container, but outside of jupyterlab's web interface:
+
+```bash
+$ notebook=./notebooks/jani-model.ipynb make run
+```
 -----------------------------------
 
+## See also
 
-
------------------------------------
-
-# See also:
-* [principles of model checking](https://books.google.com/books?id=5dvxCwAAQBAJ&)
-* https://jani-spec.org/
-* https://github.com/moves-rwth/pycarl/tree/2.2.0
-* https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm
-* https://hub.docker.com/r/movesrwth/stormpy/tags
-* https://www.stormchecker.org/documentation/usage/running-storm.html#running-storm-on-prism-jani-or-explicit-input
-* https://github.com/prismmodelchecker/prism-benchmarks/tree/master/models/smgs/dice
-* https://www.kahoque.com/papers/SysCon2016_Fault_CR.pdf
-* https://www.modestchecker.net/
-* https://github.com/ahartmanns/jani-models/
+* [Principles of Model Checking](https://books.google.com/books?id=5dvxCwAAQBAJ&)
+* [JANI model spec](https://jani-spec.org/)
+* [pycarl](https://github.com/moves-rwth/pycarl/tree/2.2.0) (part of storm)
+* [storm/stormpy compatibility info](https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm)
+* [stormpy @ dockerhub](https://hub.docker.com/r/movesrwth/stormpy/tags)
+* [storm and prism/jani](https://www.stormchecker.org/documentation/usage/running-storm.html#running-storm-on-prism-jani-or-explicit-input)
+* [prism's benchmark suite](https://github.com/prismmodelchecker/prism-benchmarks/tree/master/models/smgs/dice)
+* <https://www.kahoque.com/papers/SysCon2016_Fault_CR.pdf>
+* [modest model checker](https://www.modestchecker.net/)
+* [example JANIs from the specs author](https://github.com/ahartmanns/jani-models/)
