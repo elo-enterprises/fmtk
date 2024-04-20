@@ -41,7 +41,7 @@
 
 Formal Methods Toolkit: A growing collection of containers and notebooks for working with specification languages & model checkers
 
-Under construction.  Currently only some stuff with the [Storm Model Checker](https://www.stormchecker.org/about.html) is implemented.
+Under construction.  Uses [Storm Model Checker](https://www.stormchecker.org/about.html) official images for a base, plus adding [momba](http://momba.dev) and [CoSApp](https://cosapp.readthedocs.io/en/latest/), etc.  See the [Dockerfile](Dockerfile) and [docker-compose.yml](docker-compose.yml) for more details.
 
 -----------------------------------
 
