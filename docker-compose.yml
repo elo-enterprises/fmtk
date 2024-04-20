@@ -1,8 +1,26 @@
 version: '3'
 
 services:
+
+  # quick helper for previewing jupyter notebooks inside the console
+  w3m: &w3m
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    build:
+     context: .
+     dockerfile_inline: |
+        FROM alpine:latest
+        RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
+        RUN apk add --allow-untrusted --no-cache w3m
+        ENTRYPOINT ["/usr/bin/w3m"]
+
   storm: &storm
-    build: .
+    image: fmtk:stormbase
+    build:
+      context: .
     volumes:
       - .:/workspace
       - ./jupyter:/root/.jupyter
@@ -21,28 +39,25 @@ services:
 
   stormpy: &stormpy
     <<: *shell
-    command: >-
-      -x -c "ipython -i -c 'import stormpy; print(stormpy.__version__)'"
+    image: fmtk:stormpy
+    # command: >-
+    #   -x -c "ipython -i -c 'import stormpy; print(stormpy.__version__)'"
 
-  # docker run -t --rm -v `pwd`:/workspace -w /workspace corbinu/alpine-w3m -dump .tmp.html
-  w3m: &w3m
-    volumes:
-      - .:/workspace
-    working_dir: /workspace
-    tty: true
-    stdin_open: true
+  momba: &momba
+    <<: *stormpy
+    depends_on: ['stormpy']
+    image: fmtk:momba
     build:
-     context: .
-     dockerfile_inline: |
-        FROM alpine:latest
-        RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
-        # RUN apk update
-        RUN apk add --allow-untrusted --no-cache w3m
-        ENTRYPOINT ["/usr/bin/w3m"]
-
+      context: .
+      dockerfile_inline: |
+        FROM fmtk:stormpy
+        RUN pip install momba[all]
+        RUN pip install racetrack
 
   lab:
-    <<: *shell
+    <<: *momba
+    depends_on: ['momba']
+    image: fmtk:lab
     entrypoint: >
       jupyter lab --ip=0.0.0.0
         --port=9999 --no-browser

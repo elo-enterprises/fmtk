@@ -10,20 +10,20 @@ FROM movesrwth/stormpy:1.8.0
 # NB: branch tag here must match storm image tag
 # https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm
 
-RUN cd / && git clone https://github.com/moves-rwth/stormpy.git --branch 1.8.0
-RUN pip install ipython
-RUN pip install pytest
-RUN pip install jupyterlab
 RUN apt-get update
 RUN apt-get install -y graphviz
 RUN pip install graphviz
 
-RUN cd / && git clone https://github.com/ahartmanns/jani-models.git
-# https://github.com/jpmorganchase/jupyter-fs
-RUN pip install jupyter-fs
+RUN pip install pytest jupyterlab ipython
 
-RUN cd / && git clone https://github.com/prismmodelchecker/prism-benchmarks.git
-RUN pip install jupyter_app_launcher
+# https://github.com/jpmorganchase/jupyter-fs
+RUN pip install jupyter-fs jupyter_app_launcher
 RUN pip install matplotlib
 
+RUN cd / && git clone https://github.com/moves-rwth/stormpy.git --branch 1.8.0
+RUN cd / && git clone https://github.com/prismmodelchecker/prism-benchmarks.git
+RUN cd / && git clone https://github.com/ahartmanns/jani-models.git
 RUN cd / && git clone https://github.com/moves-rwth/stormpyter.git
+
+RUN cd / && git clone https://gitlab.com/cosapp/cosapp.git
+RUN cd /cosapp && pip install -e .
