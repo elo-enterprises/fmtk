@@ -27,3 +27,6 @@ RUN cd / && git clone https://github.com/moves-rwth/stormpyter.git
 
 RUN cd / && git clone https://gitlab.com/cosapp/cosapp.git
 RUN cd /cosapp && pip install -e .
+
+RUN cd / && git clone https://github.com/CPMpy/cpmpy
+RUN cd /cpmpy && pip install -e .

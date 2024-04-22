@@ -26,7 +26,8 @@
 <li><a href="#buildtest">Build/Test</a></li>
 <li><a href="#running-storm">Running Storm</a></li>
 <li><a href="#stormpy-shell">StormPy Shell</a></li>
-<li><a href="#storm-in-notebooks">Storm in Notebooks</a></li>
+<li><a href="#working-with-jupyter">Working with Jupyter</a></li>
+<li><a href="#working-with-neo4j">Working with Neo4j</a></li>
 <li><a href="#see-also">See also</a></li>
 </ul>
 </li>
@@ -41,7 +42,11 @@
 
 Formal Methods Toolkit: A growing collection of containers and notebooks for working with specification languages & model checkers
 
-Under construction.  Uses [Storm Model Checker](https://www.stormchecker.org/about.html) official images for a base, plus adding [momba](http://momba.dev) and [CoSApp](https://cosapp.readthedocs.io/en/latest/), etc.  See the [Dockerfile](Dockerfile) and [docker-compose.yml](docker-compose.yml) for more details.
+Under construction.  This bundles a basic [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/) deployment with other containers, mostly using the [Storm Model Checker](https://www.stormchecker.org/about.html) official images for a base.  Plus adding [momba](http://momba.dev), [CoSApp](https://cosapp.readthedocs.io/en/latest/), and a (optional) [Neo4j](https://github.com/neo4j/neo4j) deployment.
+
+**This is for local experimentation, not deployment, and it isn't supposed to be secure.** Servers are optional, but Jupyter is unauthenticated & Neo4j auth details are plaintext inside the project config.
+
+See the [Dockerfile](Dockerfile), [docker-compose.yml](docker-compose.yml) and [notebooks/](notebooks/) for more details.
 
 -----------------------------------
 
@@ -126,9 +131,7 @@ Out[3]:
  'prism_pomdp_maze',]
 ```
 
-## Storm in Notebooks
-
-This uses [jupyter](https://jupyter.org/) to work with storm & stormpy in a notebook.
+## Working with Jupyter
 
 ```bash
 
@@ -153,17 +156,44 @@ You can also run notebooks, inside the main container, but outside of jupyterlab
 ```bash
 $ notebook=./notebooks/jani-model.ipynb make run
 ```
+
+## Working with Neo4j
+
+```bash
+
+# Start GraphDB
+$ docker compose up -d neo4j
+
+# opens WebUI (http://localhost:7474/) in browser
+$ make open/neo4j
+
+# get a interactive Cypher shell:
+$ docker compose run -T cypher
+
+# use Cypher with pipes
+$ echo 'MATCH (n) return n;' | docker compose run -T cypher
+
+# purge graphdb
+$ echo 'MATCH (n) DETACH DELETE n;' | docker compose run -T cypher
+
+# run a notebook that does stuff with neo
+$ notebook=notebooks/neo4j-driver.ipynb make run
+```
 -----------------------------------
 
 ## See also
 
-* [Principles of Model Checking](https://books.google.com/books?id=5dvxCwAAQBAJ&)
 * [JANI model spec](https://jani-spec.org/)
+    * [example JANI models](https://github.com/ahartmanns/jani-models/)
+* [CoSApp code](https://gitlab.com/cosapp/cosapp)
+    * [CoSApp in JOSS](https://joss.theoj.org/papers/10.21105/joss.06292)
+* [CPMpy code](https://github.com/CPMpy/cpmpy/)
+    * [CPMpy examples](https://github.com/CPMpy/cpmpy/blob/master/examples)
+* [Principles of Model Checking](https://books.google.com/books?id=5dvxCwAAQBAJ&)
 * [pycarl](https://github.com/moves-rwth/pycarl/tree/2.2.0) (part of storm)
 * [storm/stormpy compatibility info](https://moves-rwth.github.io/stormpy/installation.html#compatibility-of-stormpy-and-storm)
-* [stormpy @ dockerhub](https://hub.docker.com/r/movesrwth/stormpy/tags)
-* [storm and prism/jani](https://www.stormchecker.org/documentation/usage/running-storm.html#running-storm-on-prism-jani-or-explicit-input)
+    * [stormpy @ dockerhub](https://hub.docker.com/r/movesrwth/stormpy/tags)
+    * [storm and prism/jani](https://www.stormchecker.org/documentation/usage/running-storm.html#running-storm-on-prism-jani-or-explicit-input)
 * [prism's benchmark suite](https://github.com/prismmodelchecker/prism-benchmarks/tree/master/models/smgs/dice)
 * <https://www.kahoque.com/papers/SysCon2016_Fault_CR.pdf>
 * [modest model checker](https://www.modestchecker.net/)
-* [example JANIs from the specs author](https://github.com/ahartmanns/jani-models/)

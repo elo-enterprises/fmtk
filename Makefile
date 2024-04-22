@@ -20,15 +20,18 @@ panic: stop
 serve/bg:
 	docker compose up -d lab
 
-open:
+open: open/jupyter
+open/jupyter:
 	python -c 'import webbrowser; webbrowser.open("http://localhost:9999/lab")'
+open/neo4j:
+	python -c 'import webbrowser; webbrowser.open("http://localhost:7474/")'
 
 shell:
 	docker compose run shell
 
 smoke-test: test
 
-test: test/stormpy-examples
+test: test/stormpy-examples test/cpmpy
 	${RUNNER} 'storm --version || true'
 	${RUNNER} 'python -c"import stormpy; print(stormpy.__version__)"'
 	notebook=./notebooks/jani-model.ipynb make run
@@ -41,6 +44,10 @@ test/stormpy-examples:
 		&& python /stormpy/examples/02-getting-started.py \
 		&& python /stormpy/examples/03-getting-started.py \
 		&& python /stormpy/examples/04-getting-started.py'
+
+test/cpmpy:
+	docker compose run shell -x -c "cd /cpmpy/examples \
+	&& ls *.py | xargs -n1 python"
 
 run: run/nb
 

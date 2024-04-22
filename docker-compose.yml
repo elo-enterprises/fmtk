@@ -1,6 +1,35 @@
 version: '3'
 
 services:
+  neo4j:
+    image: fmtk:neo4j
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    build:
+     context: .
+     dockerfile_inline: |
+        FROM neo4j:latest
+        RUN apt-get update
+        RUN apt-get install -y python3-pip curl
+        RUN pip install neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # BOLT
+    environment:
+      NEO4J_AUTH: neo4j/fmtk-neo4j  # Change 'your_password' to your desired password
+
+  cypher: &cypher
+    tty: false
+    command: 'cypher-shell -a bolt://neo4j:7687 -u neo4j -p fmtk-neo4j'
+    depends_on: ['neo4j']
+    links: ['neo4j']
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM fmtk:neo4j
 
   # quick helper for previewing jupyter notebooks inside the console
   w3m: &w3m
@@ -26,10 +55,9 @@ services:
       - ./jupyter:/root/.jupyter
       - ./jupyter/overrides.json:/opt/venv/share/jupyter/lab/settings/overrides.json
       - ./jupyter/jupyter_app_launcher:/opt/venv/share/jupyter/jupyter_app_launcher
-      # - ./jupyter/overrides.json:/root/.jupyter/overrides.json
     working_dir: /workspace
-    # command: ["storm", "model-check", "models/markov-chain.pm"]
     entrypoint: storm
+    # command: ["storm", "model-check", "models/markov-chain.pm"]
 
   shell: &shell
     <<: *storm
@@ -56,7 +84,7 @@ services:
 
   lab:
     <<: *momba
-    depends_on: ['momba']
+    depends_on: ['momba','neo4j']
     image: fmtk:lab
     entrypoint: >
       jupyter lab --ip=0.0.0.0
